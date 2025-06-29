@@ -12,6 +12,6 @@ public class Headers {
     }
 
     public String printHeaders(){
-        return host.getHostString() + userAgent.getUserAgent() +  accept.printAccept();
+        return host.getHostString() + userAgent.getUserAgent() +  accept.getAccept();
     }
 }
