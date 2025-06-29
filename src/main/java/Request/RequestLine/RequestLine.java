@@ -11,4 +11,7 @@ public class RequestLine {
         this.HTTPVersion = HTTPVersion;
     }
 
+    public String getURLPath() {
+        return URLPath;
+    }
 }
