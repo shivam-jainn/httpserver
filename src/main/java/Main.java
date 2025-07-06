@@ -1,8 +1,12 @@
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import Parsers.Parser;
+import Parsers.RequestParser;
+import Request.RequestBody;
+import Router.Router;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.rmi.server.ExportException;
 
 public class Main {
@@ -24,11 +28,21 @@ public class Main {
         try(Socket clientSocket = serverSocket.accept()){
           System.out.println("accepted new connection");
 
+          InputStream inputStream = clientSocket.getInputStream();
+          Parser<RequestBody> requestParser = new RequestParser();
+          BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+          StringBuilder sb = new StringBuilder();
+          String line;
+          while ((line = reader.readLine()) != null && !line.isEmpty()) {
+            sb.append(line).append("\r\n");
+          }
+          String requestString = sb.toString();
+          RequestBody request = requestParser.parse(requestString);
+          Router router = new Router();
+
+          byte[] http_response  = router.routing(request.getRequestLine().getURLPath());
 
           OutputStream output = clientSocket.getOutputStream();
-
-          Response response = new Response();
-          byte[] http_response = response.HTTPResponse();
 
           output.write(http_response);
 

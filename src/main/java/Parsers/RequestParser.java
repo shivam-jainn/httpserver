@@ -11,6 +11,7 @@ public class RequestParser implements Parser<RequestBody> {
 
     public static RequestLine requestLineParser(String requestLineBody){
         String[] requestLine = requestLineBody.split(" ");
+        System.out.println(requestLine[0]);
         String _HTTPMethod = requestLine[0];
         String URLPath = requestLine[1];
         String HTTPVersion = requestLine[2];

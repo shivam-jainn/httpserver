@@ -15,13 +15,14 @@ public class Router {
 
     public byte[] routing(String URLPath){
         Response response = new Response();
-
-        String message = switch (URLPath){
-            case "/" -> "OK OK";
-            default -> "404 Error not found";
-        };
-
-        return response.HTTPResponse(message);
+        switch (URLPath) {
+            case "/" -> {
+                return response.HTTPResponse("OK OK", 200, "OK");
+            }
+            default -> {
+                return response.HTTPResponse("404 Error not found", 404, "Not Found");
+            }
+        }
     }
 
 }
